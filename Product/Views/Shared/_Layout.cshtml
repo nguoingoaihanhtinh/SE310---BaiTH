@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Product</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Product.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid flex justify-between gap-5">
+                <a class="navbar-brand" asp-area="" asp-controller="Food" asp-action="Index">Home</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="flex items-center align-items-end">
+                    <button id="login-modal-btn"
+                            class="px-4 py-2 rounded-md text-lg !text-black hover:bg-gray-100 transition-all cursor-pointer"
+                            onclick="toggleModal('login-modal')">
+                        Login
+                    </button>
+                    <button id="register-modal-btn"
+                            class="px-4 py-2 rounded-md text-lg !text-black hover:bg-gray-100 transition-all cursor-pointer"
+                            onclick="toggleModal('register-modal')">
+                        Register
+                    </button>
+                </div>
+                <div id="login-modal"
+                     class="fixed flex justify-center items-center inset-0 m-auto my-auto bg-black bg-opacity-50 hidden">
+                    <div class="w-[400px] p-5 bg-white rounded-lg shadow-lg">
+                        <h2 class="text-lg font-bold mb-4">Login</h2>
+                        <form>
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email"
+                                       id="email"
+                                       name="email"
+                                       class="mt-1 px-2 py-2 border-[1px] block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                       required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <input type="password"
+                                       id="password"
+                                       name="password"
+                                       class="mt-1 px-2 py-2 border-[1px] block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                       required />
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Register Modal -->
+                <div id="register-modal"
+                     class="fixed flex justify-center items-center inset-0 m-auto my-auto bg-black bg-opacity-50 hidden">
+                    <div class="w-[400px] p-5 bg-white rounded-lg shadow-lg">
+                        <h2 class="text-lg font-bold mb-4">Register</h2>
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text"
+                                       id="name"
+                                       name="name"
+                                       class="px-2 py-2 border-[1px] mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                       required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email"
+                                       id="email"
+                                       name="email"
+                                       class="px-2 py-2 border-[1px] mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                       required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <input type="password"
+                                       id="password"
+                                       name="password"
+                                       class="px-2 py-2 border-[1px] mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                       required />
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Register
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Product - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle("hidden");
+            }
+        }
+
+        // Close modals when clicking outside of them
+        window.onclick = function (event) {
+            const loginModal = document.getElementById("login-modal");
+            const registerModal = document.getElementById("register-modal");
+            if (event.target === loginModal) {
+                toggleModal("login-modal");
+            } else if (event.target === registerModal) {
+                toggleModal("register-modal");
+            }
+        };
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

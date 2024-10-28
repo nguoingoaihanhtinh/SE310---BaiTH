@@ -1,0 +1,22 @@
+﻿@model Product.Models.Food
+
+<div class="px-12 bg-orange-50 rounded-xl p-5">
+    <h2 class="text-3xl">Thông tin chi tiết món ăn</h2>
+    <div class="mt-4 flex justify-center gap-10 ">
+        <div class="rounded-md overflow-hidden h-[500px] w-[500px] bg-cover bg-center bg-no-repeat" style="background-image: url('@Model.ImageUrl');"></div>
+        <div class="px-5 py-5 items-center bg-yellow-100 rounded-xl flex flex-column justify-center">
+            <div class="text-4xl font-bold mt-4">@Model.Name</div>
+            <div class="text-lg text-gray-500 mt-4 items-right">@Model.Category</div>
+            <div class="text-sm text-gray-500 font-semibold mt-2">@Model.Description</div>
+            <div class="mt-2">Giá: @Model.Price.ToString("F0") vnđ</div>
+        </div>
+    </div>
+
+    <div class="mt-6">
+        <a href="/Food/Edit/@Model.Id" class="px-4 py-2 text-white bg-blue-600 rounded-md">Sửa</a>
+        <form method="post" action="/Food/Delete/@Model.Id" class="inline">
+            <button type="submit" class="ml-2 px-4 py-2 text-white bg-red-600 rounded-md">Xóa</button>
+        </form>
+        <a href="/Food" class="ml-2 px-4 py-2 text-gray-700 bg-gray-300 rounded-md">Quay lại danh sách</a>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+@model Product.Models.AdminDashboardViewModel // Change to the correct model
+
+<div class="px-12 py-8">
+    <h2 class="text-3xl font-bold">Admin Dashboard</h2>
+
+    <div class="grid grid-cols-2 gap-8 mt-5">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold">Total Foods</h3>
+            <p class="text-2xl">@Model.FoodCount</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold">Total Users</h3>
+            <p class="text-2xl">@ViewBag.UserCount</p>
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <h3 class="text-2xl font-semibold">User List</h3>
+
+        <table class="mt-4 w-full border-collapse border border-gray-300">
+            <thead>
+                <tr>
+                    <th class="border border-gray-300 px-4 py-2">User ID</th>
+                    <th class="border border-gray-300 px-4 py-2">Username</th>
+                    <th class="border border-gray-300 px-4 py-2">Email</th>
+                    <th class="border border-gray-300 px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users) // Assuming your ViewModel has a Users property
+                {
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">@user.Id</td>
+                        <td class="border border-gray-300 px-4 py-2">@user.Username</td>
+                        <td class="border border-gray-300 px-4 py-2">@user.Email</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <button class="px-2 py-1 bg-yellow-500 text-white rounded" onclick="location.href='@Url.Action("EditUser", "User", new { id = user.Id })'">Update</button>
+
+                            <form asp-action="DeleteUser" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-8">
+        <h3 class="text-2xl font-semibold">Food List</h3>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded" onclick="location.href='@Url.Action("Create", "Food")'">Add Food</button>
+
+        <table class="mt-4 w-full border-collapse border border-gray-300">
+            <thead>
+                <tr>
+                    <th class="border border-gray-300 px-4 py-2">ID</th>
+                    <th class="border border-gray-300 px-4 py-2">Name</th>
+                    <th class="border border-gray-300 px-4 py-2">Price</th>
+                    <th class="border border-gray-300 px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in Model.Foods) // Use Model.Foods for iteration
+                {
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">@food.Id</td>
+                        <td class="border border-gray-300 px-4 py-2">@food.Name</td>
+                        <td class="border border-gray-300 px-4 py-2">@food.Price</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <button class="px-2 py-1 bg-yellow-500 text-white rounded" onclick="location.href='@Url.Action("Edit", "Food", new { id = food.Id })'">Update</button>
+                            <form action="@Url.Action("Delete", "Food", new { id = food.Id })" method="post" style="display:inline;">
+                                <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-8">
+        <h3 class="text-2xl font-semibold">Food Prices Chart</h3>
+        <canvas id="foodSalesChart" class="mt-4"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('foodSalesChart').getContext('2d');
+    const foodSalesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.FoodNames)), // Use Model for labels
+            datasets: [{
+                label: 'Food Prices',
+                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Prices)), // Use Model for data
+                backgroundColor: ['red', 'blue', 'green', 'orange'],
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+            },
+        },
+    });
+</script>

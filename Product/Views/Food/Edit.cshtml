@@ -1,0 +1,37 @@
+﻿@model Product.Models.Food
+
+<div class="px-12">
+    <h2 class="text-3xl">Edit Food</h2>
+    <form method="post" action="/Food/Edit/@Model.Id">
+        <div class="mb-4">
+            <label for="foodName" class="block text-gray-700">Tên món ăn</label>
+            <input type="text" id="foodName" name="Name" value="@Model.Name" class="border border-gray-300 rounded-md w-full p-2" required>
+        </div>
+        <div class="mb-4">
+            <label for="foodCategory" class="block text-gray-700">Danh mục</label>
+            <select id="foodCategory" name="Category" class="border border-gray-300 rounded-md w-full p-2" required>
+                <option value="" disabled selected>Chọn danh mục</option> <!-- Placeholder option -->
+                <option value="MainDish">Main Dish</option>
+                <option value="FastFood">Fast Food</option>
+                <option value="Dessert">Dessert</option>
+                <option value="Drink">Drink</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="foodImage" class="block text-gray-700">Hình ảnh (URL)</label>
+            <input type="text" id="foodImage" name="ImageUrl" value="@Model.ImageUrl" class="border border-gray-300 rounded-md w-full p-2" required>
+        </div>
+        <div class="mb-4">
+            <label for="foodDescription" class="block text-gray-700">Mô tả</label>
+            <textarea id="foodDescription" name="Description" class="border border-gray-300 rounded-md w-full p-2" required>@Model.Description</textarea>
+        </div>
+        <div class="mb-4">
+            <label for="foodPrice" class="block text-gray-700">Giá (VNĐ)</label>
+            <input type="number" id="foodPrice" name="Price" value="@Model.Price" class="border border-gray-300 rounded-md w-full p-2" required>
+        </div>
+        <div class="flex justify-end">
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md">Cập nhật</button>
+            <a href="@Url.Action("Index", "Food")" class="ml-2 px-4 py-2 text-gray-700 bg-gray-300 rounded-md">Hủy</a>
+        </div>
+    </form>
+</div>

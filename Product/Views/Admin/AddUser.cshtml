@@ -1,0 +1,26 @@
+﻿@model Product.Models.User
+
+<div class="px-12 mt-8">
+    <h2 class="text-3xl">Add User</h2>
+    <form method="post" action="@Url.Action("AddUser", "Admin")">
+        <div class="mb-4">
+            <label for="username" class="block text-gray-700">Username</label>
+            <input type="text" id="username" name="Username" class="border border-gray-300 rounded-md w-full p-2" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="email" class="block text-gray-700">Email</label>
+            <input type="email" id="email" name="Email" class="border border-gray-300 rounded-md w-full p-2" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="block text-gray-700">Password</label>
+            <input type="password" id="password" name="Password" class="border border-gray-300 rounded-md w-full p-2" required>
+        </div>
+
+        <div class="flex justify-end">
+            <button type="button" onclick="window.history.back()" class="mr-4 px-4 py-2 text-gray-700 bg-gray-300 rounded-md">Cancel</button>
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md">Add User</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,126 @@
+﻿@model List<Product.Models.Food>
+
+<div class="px-12">
+    <div class="flex items-center justify-between w-full">
+        <h2 class="text-3xl">Food List</h2>
+        <div id="openModalBtn" class="px-2 py-2 rounded-md text-white bg-blue-600 font-bold text-sm cursor-pointer">Thêm món ăn</div>
+    </div>
+
+    <!-- Category buttons -->
+    <div class="flex items-center justify-between mt-4">
+        <div class="flex space-x-4" id="categoryButtons">
+            <button class="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-700" data-category="all">All</button>
+            <button class="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-700" data-category="MainDish">MainDish</button>
+            <button class="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-700" data-category="FastFood">FastFood</button>
+            <button class="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-700" data-category="Dessert">Dessert</button>
+            <button class="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-700" data-category="Drink">Drink</button>
+        </div>
+        <span id="selectedCategory" class="text-xl font-semibold ml-4"></span>
+    </div>
+
+    <div class="grid grid-cols-4 gap-8 mt-4" id="foodList">
+        @foreach (var food in Model)
+        {
+            <div class="food-item border p-4 rounded-md" data-category="@food.Category">
+                <a href="/food/Detail/@food.Id" class="px-4 cursor-pointer transition-all hover:scale-105 rounded-md py-4 ">
+                    <div class="w-full rounded-md overflow-hidden h-[200px] bg-cover bg-center bg-no-repeat hover:scale-105" style="background-image: url('@food.ImageUrl');">
+                    </div>
+                    <div class="text-2xl font-bold mt-2">@food.Name</div>
+                    <div class="text-lg text-gray-400 mt-2">@food.Category</div>
+                    <div class="text-sm text-gray-500 font-semibold line-clamp-4">@food.Description</div>
+                    <div>Price : @food.Price.ToString("F0") vnđ</div>
+                </a>
+                <div class="mt-4 flex justify-between">
+                    <a href="/Food/Edit/@food.Id" class="text-white bg-green-600 rounded-md px-3 py-1">Sửa</a>
+                    <form action="/Food/Delete/@food.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <button type="submit" class="text-white bg-red-600 rounded-md px-3 py-1">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="foodModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 w-[500px]">
+        <h3 class="text-xl font-bold mb-4">Thêm món ăn mới</h3>
+        <form id="addFoodForm" method="post" action="/Food/Create">
+            <div class="mb-4">
+                <label for="foodName" class="block text-gray-700">Tên món ăn</label>
+                <input type="text" id="foodName" name="Name" class="border border-gray-300 rounded-md w-full p-2" required>
+            </div>
+            <div class="mb-4">
+                <label for="foodImage" class="block text-gray-700">Hình ảnh (URL)</label>
+                <input type="text" id="foodImage" name="ImageUrl" class="border border-gray-300 rounded-md w-full p-2" required>
+            </div>
+            <div class="mb-4">
+                <label for="foodDescription" class="block text-gray-700">Mô tả</label>
+                <textarea id="foodDescription" name="Description" class="border border-gray-300 rounded-md w-full p-2" required></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="foodPrice" class="block text-gray-700">Giá (VNĐ)</label>
+                <input type="number" id="foodPrice" name="Price" class="border border-gray-300 rounded-md w-full p-2" required>
+            </div>
+            <div class="mb-4">
+                <label for="foodCategory" class="block text-gray-700">Danh mục</label>
+                <select id="foodCategory" name="Category" class="border border-gray-300 rounded-md w-full p-2" required>
+                    <option value="MainDish">MainDish</option>
+                    <option value="FastFood">FastFood</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Drink">Drink</option>
+                </select>
+            </div>
+            <div class="flex justify-end">
+                <button type="button" id="closeModalBtn" class="mr-4 px-4 py-2 text-gray-700 bg-gray-300 rounded-md">Hủy</button>
+                <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const foodModal = document.getElementById('foodModal');
+    const foodList = document.getElementById('foodList');
+    const buttons = document.querySelectorAll('[data-category]');
+    const selectedCategory = document.getElementById('selectedCategory');
+
+    openModalBtn.addEventListener('click', function () {
+        foodModal.classList.remove('hidden');
+    });
+
+    closeModalBtn.addEventListener('click', function () {
+        foodModal.classList.add('hidden');
+    });
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            const selectedCategoryValue = this.getAttribute('data-category');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-blue-700'); 
+            });
+
+            this.classList.add('bg-blue-700');
+
+  
+            const foodItems = foodList.querySelectorAll('.food-item');
+
+            foodItems.forEach(item => {
+                if (selectedCategoryValue === 'all' || item.getAttribute('data-category') === selectedCategoryValue) {
+                    item.classList.remove('hidden'); 
+                } else {
+                    item.classList.add('hidden'); 
+                }
+            });
+         
+        });
+    });
+</script>
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
